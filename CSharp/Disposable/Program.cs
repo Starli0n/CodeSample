@@ -63,10 +63,10 @@ namespace Disposable
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new FormTest());
+            Application.Run(new FormTest("Main"));
             Debug.WriteLine("");
 
-            FormTest test = new FormTest();
+            FormTest test = new FormTest("Other");
             test.Show();
             Debug.WriteLine("");
 

@@ -31,13 +31,25 @@ namespace Disposable
         /// </summary>
         private void InitializeComponent()
         {
+            this.m_button = new System.Windows.Forms.Button();
             this.SuspendLayout();
+            // 
+            // m_button
+            // 
+            this.m_button.Location = new System.Drawing.Point(103, 111);
+            this.m_button.Name = "m_button";
+            this.m_button.Size = new System.Drawing.Size(75, 23);
+            this.m_button.TabIndex = 0;
+            this.m_button.Text = "Child";
+            this.m_button.UseVisualStyleBackColor = true;
+            this.m_button.Click += new System.EventHandler(this.m_button_Click);
             // 
             // FormTest
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(284, 262);
+            this.Controls.Add(this.m_button);
             this.Name = "FormTest";
             this.Text = "FormTest";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormTest_FormClosing);
@@ -47,5 +59,7 @@ namespace Disposable
         }
 
         #endregion
+
+        private System.Windows.Forms.Button m_button;
     }
 }

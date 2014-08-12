@@ -14,11 +14,11 @@ namespace Disposable
     {
         private BaseClass m_obj;
 
-        public FormTest()
+        public FormTest(string a_name)
         {
             Debug.WriteLine("FormTest::FormTest()");
             InitializeComponent();
-            m_obj = new BaseClass("FormTest");
+            m_obj = new BaseClass(a_name);
         }
 
         private void FormTest_FormClosing(object sender, FormClosingEventArgs e)
@@ -34,6 +34,17 @@ namespace Disposable
                 m_obj.Dispose();
                 m_obj = null;
             }
+            if (m_button != null)
+            {
+                m_button.Dispose();
+                m_button = null;
+            }
+        }
+
+        private void m_button_Click(object sender, EventArgs e)
+        {
+            FormTest test = new FormTest("Child");
+            test.Show();
         }
     }
 }
