@@ -39,6 +39,7 @@ namespace Disposable
                 m_button.Dispose();
                 m_button = null;
             }
+            Program.AfterClosingForm();
         }
 
         private void m_button_Click(object sender, EventArgs e)

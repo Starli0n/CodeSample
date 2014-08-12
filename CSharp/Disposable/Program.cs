@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Configuration;
@@ -7,6 +8,12 @@ using System.Text;
 using System.Diagnostics;
 using EnvDTE;
 using EnvDTE100;
+
+// Used for Extension Methods
+namespace System.Runtime.CompilerServices
+{
+    public class ExtensionAttribute : Attribute { }
+}
 
 namespace Disposable
 {
@@ -61,6 +68,8 @@ namespace Disposable
             g.Dispose();
             Debug.WriteLine("");
 
+            List();
+
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new FormTest("Main"));
@@ -77,6 +86,17 @@ namespace Disposable
         static public void ClassE()
         {
             BaseClass e = new BaseClass("e");
+            Debug.WriteLine("");
+        }
+
+        static public void List()
+        {
+            List<BaseClass> list = new List<BaseClass>();
+            list.Add(new BaseClass("List1"));
+            list.Add(new BaseClass("List2"));
+            list.Add(new BaseClass("List3"));
+            list.DisposeAll();
+            list.Clear();
             Debug.WriteLine("");
         }
 
@@ -109,6 +129,22 @@ namespace Disposable
                 Debug.WriteLine("MemDiff: {0}", memoryUsed - GCpreviousUsed, null);
             GCpreviousUsed = memoryUsed;
             Debug.WriteLine("");
+        }
+
+        public static void AfterClosingForm()
+        {
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
+        }
+
+        public static void DisposeAll(this IEnumerable set)
+        {
+            foreach (Object obj in set)
+            {
+                IDisposable disp = obj as IDisposable;
+                if (disp != null)
+                    disp.Dispose();
+            }
         }
     }
 }
