@@ -79,6 +79,11 @@ namespace Disposable
             test.Show();
             Debug.WriteLine("");
 
+            Debug.WriteLine("");
+            Singleton.Initialize();
+            Singleton.Release();
+            Debug.WriteLine("Main::End()");
+
             Debug.WriteLine("Main::End()");
             Debug.WriteLine("");
         }
