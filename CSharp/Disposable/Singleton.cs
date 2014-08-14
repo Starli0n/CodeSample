@@ -6,21 +6,15 @@ using System.Diagnostics;
 
 namespace Disposable
 {
-    public sealed class Singleton
+    public abstract class Singleton<T> where T : class
     {
+        static private readonly Lazy<T> s_Instance = new Lazy<T>(() => CreateInstanceOfT());
         static private bool s_bInitialized = false;
         static private bool s_bReleased = false;
 
-        private class Nested
+        private static T CreateInstanceOfT()
         {
-            // Explicit static constructor to tell C# compiler
-            // not to mark type as beforefieldinit
-            static Nested()
-            {
-                Debug.WriteLine("Singleton::Nested::Nested");
-            }
-
-            internal static readonly Singleton instance = new Singleton();
+            return Activator.CreateInstance(typeof(T), true) as T;
         }
 
         public static void Initialize()
@@ -29,7 +23,7 @@ namespace Disposable
                 return;
 
             Debug.WriteLine("Singleton::Initialize");
-            Singleton single = Nested.instance;
+            T single = s_Instance.Value;
             s_bInitialized = true;
         }
 
@@ -40,11 +34,12 @@ namespace Disposable
 
             Debug.WriteLine("Singleton::Release");
 
-            Nested.instance.Release(true);
-            GC.SuppressFinalize(Nested.instance);
+            Singleton<T> singleton = s_Instance.Value as Singleton<T>;
+            singleton.Release(true);
+            GC.SuppressFinalize(singleton);
         }
 
-        private Singleton()
+        protected Singleton()
         {
             Debug.WriteLine("Singleton::Singleton");
         }
@@ -55,7 +50,7 @@ namespace Disposable
             Release(false);
         }
 
-        private void Release(bool releasing)
+        protected virtual void Release(bool releasing)
         {
             Debug.WriteLine("Singleton::Release({0})", releasing, null);
             if (s_bReleased)
@@ -71,5 +66,7 @@ namespace Disposable
             //
             s_bReleased = true;
         }
+
+        static public bool Released { get { return s_bReleased; } }
     }
 }

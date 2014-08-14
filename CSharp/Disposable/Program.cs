@@ -9,12 +9,6 @@ using System.Diagnostics;
 using EnvDTE;
 using EnvDTE100;
 
-// Used for Extension Methods
-namespace System.Runtime.CompilerServices
-{
-    public class ExtensionAttribute : Attribute { }
-}
-
 namespace Disposable
 {
     static class Program
@@ -79,10 +73,9 @@ namespace Disposable
             test.Show();
             Debug.WriteLine("");
 
+            MySingleton.Initialize();
+            MySingleton.Release();
             Debug.WriteLine("");
-            Singleton.Initialize();
-            Singleton.Release();
-            Debug.WriteLine("Main::End()");
 
             Debug.WriteLine("Main::End()");
             Debug.WriteLine("");
