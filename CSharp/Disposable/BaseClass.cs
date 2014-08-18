@@ -50,6 +50,8 @@ namespace Disposable
             Dispose(false);
         }
 
+        public bool Disposed { get { return m_disposed; } }
+
         public string Name
         {
             get { return m_sName;  }

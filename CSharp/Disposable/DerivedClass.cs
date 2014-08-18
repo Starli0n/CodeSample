@@ -8,9 +8,6 @@ namespace Disposable
 {
     class DerivedClass : BaseClass
     {
-        // Flag: Has Dispose already been called?
-        bool disposed = false;
-
         public DerivedClass(string a_sName) : base(a_sName)
         {
             Debug.WriteLine("{0} - DerivedClass::DerivedClass()", m_sName, null);
@@ -20,7 +17,7 @@ namespace Disposable
         protected override void Dispose(bool disposing)
         {
             Debug.WriteLine("{0} - DerivedClass::Dispose({1})", m_sName, disposing, null);
-            if (disposed)
+            if (Disposed)
                 return;
 
             if (disposing)
@@ -33,7 +30,6 @@ namespace Disposable
 
             // Free any unmanaged objects here.
             //
-            disposed = true;
         }
 
     }
