@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace LinkedListDll
 {
@@ -33,6 +34,11 @@ namespace LinkedListDll
         {
             Clear();
             Add(firstValue);
+        }
+
+        public LinkedList(IEnumerable<T> collection)
+        {
+            throw new NotImplementedException();
         }
 
         public void Clear()
@@ -110,6 +116,34 @@ namespace LinkedListDll
                 afterOld.Previous = beforeOld;
 
             --Count;
+        }
+
+        public void RemoveFirst()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void RemoveLast()
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool Contains(T value)
+        {
+            throw new NotImplementedException();
+            return false;
+        }
+
+        public LinkedListNode<T> Find(T value)
+        {
+            throw new NotImplementedException();
+            return null;
+        }
+
+        public LinkedListNode<T> FindLast(T value)
+        {
+            throw new NotImplementedException();
+            return null;
         }
     }
 }

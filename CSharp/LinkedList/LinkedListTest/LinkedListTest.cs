@@ -1,9 +1,12 @@
 ﻿using LinkedListDll;
 using NUnit.Framework;
 using System;
+using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 
 namespace LinkedListTest
 {
+    [ExcludeFromCodeCoverage]
     [TestFixture]
     public class LinkedListTest
     {
@@ -11,11 +14,12 @@ namespace LinkedListTest
         LinkedList<int> m_list1;
         LinkedList<int> m_list2;
         LinkedList<int> m_list3;
+        LinkedList<int> m_list42;
 
         [OneTimeSetUp]
         public void OneTimeSetUp()
         {
-            
+
         }
 
         [SetUp]
@@ -34,14 +38,26 @@ namespace LinkedListTest
             m_list3.Add(1);
             m_list3.Add(2);
             m_list3.Add(3);
+
+            //m_list42 = new LinkedList<int>(Enumerable.Repeat<int>(42, 5));
         }
 
         [Test]
         public void TestNewList()
         {
             Assert.AreEqual(0, m_list0.Count);
-            Assert.AreEqual(null, m_list0.First);
-            Assert.AreEqual(null, m_list0.Last);
+            Assert.IsNull(m_list0.First);
+            Assert.IsNull(m_list0.Last);
+        }
+
+        [Test]
+        public void TestNewEnumerable()
+        {
+            int[] tab = new int[] { 1, 2, 3 };
+            LinkedList<int> list = new LinkedList<int>(tab);
+            Assert.AreEqual(3, m_list3.Count);
+            Assert.AreEqual(1, m_list3.First.Value);
+            Assert.AreEqual(3, m_list3.Last.Value);
         }
 
         [Test]
@@ -49,8 +65,8 @@ namespace LinkedListTest
         {
             m_list0.Clear();
             Assert.AreEqual(0, m_list0.Count);
-            Assert.AreEqual(null, m_list0.First);
-            Assert.AreEqual(null, m_list0.Last);
+            Assert.IsNull(m_list0.First);
+            Assert.IsNull(m_list0.Last);
         }
 
         [Test]
@@ -58,8 +74,8 @@ namespace LinkedListTest
         {
             m_list3.Clear();
             Assert.AreEqual(0, m_list0.Count);
-            Assert.AreEqual(null, m_list0.First);
-            Assert.AreEqual(null, m_list0.Last);
+            Assert.IsNull(m_list0.First);
+            Assert.IsNull(m_list0.Last);
         }
 
         [Test]
@@ -200,6 +216,54 @@ namespace LinkedListTest
                 delegate { m_list3.Insert(-1, 42); });
             Assert.Throws<ArgumentOutOfRangeException>(
                 delegate { m_list3.Insert(4, 42); });
+        }
+
+        [Test]
+        public void TestRemoveAt3()
+        {
+            m_list3.RemoveAt(1);
+            Assert.AreEqual(2, m_list3.Count);
+            Assert.AreEqual(1, m_list3.First.Value);
+            Assert.AreEqual(3, m_list3.Last.Value);
+        }
+
+        [Test]
+        public void TestRemoveFirst()
+        {
+            m_list3.RemoveFirst();
+            Assert.AreEqual(2, m_list3.Count);
+            Assert.AreEqual(2, m_list3.First.Value);
+            Assert.AreEqual(3, m_list3.Last.Value);
+        }
+
+        [Test]
+        public void TestRemoveLast()
+        {
+            m_list3.RemoveLast();
+            Assert.AreEqual(2, m_list3.Count);
+            Assert.AreEqual(1, m_list3.First.Value);
+            Assert.AreEqual(2, m_list3.Last.Value);
+        }
+
+        [Test]
+        public void TestContains()
+        {
+            Assert.True(m_list3.Contains(2));
+            Assert.False(m_list3.Contains(42));
+        }
+
+        [Test]
+        public void TestFind()
+        {
+            m_list42 = new LinkedList<int>(Enumerable.Repeat<int>(42, 5));
+            Assert.AreEqual(0, m_list42.Find(42));
+        }
+
+        [Test]
+        public void TestFindLast()
+        {
+            m_list42 = new LinkedList<int>(Enumerable.Repeat<int>(42, 5));
+            Assert.AreEqual(5, m_list42.FindLast(42));
         }
 
         [TearDown]
